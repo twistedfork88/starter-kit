@@ -9,8 +9,14 @@ import { StaticRouter } from "react-router-dom";
 import { ServerStyleSheet } from 'styled-components'; 
 import exphbs from 'express-handlebars';
 import path from 'path';
+import handleNonce from './middleware/nonce';
+import cspRules from './middleware/csp';
+import helmetCsp from 'helmet-csp';
+import cookies from 'cookie-parser';
 
 const app = express();
+
+app.use(cookies());
 
 app.set('views', path.join(process.cwd(), 'src', 'server'));
 app.engine( '.hbs', exphbs({
@@ -25,6 +31,9 @@ app.use(cors());
 // folder since that's where our
 // client bundle.js file will end up.
 app.use(express.static("webpack/public"));
+
+app.use(handleNonce);
+app.use(helmetCsp(cspRules));
 
 app.get("*", (req, res, next) => {
 
