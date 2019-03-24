@@ -7,6 +7,7 @@ This is a sample starter kit for React. It includes the support for following:
 5. code splitting
 6. image imports
 7. handlebars
+8. Content-security-policy and HSTS boilerplate
 
 # setup
 
