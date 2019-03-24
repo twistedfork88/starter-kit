@@ -1,6 +1,18 @@
 var path = require('path')
 var webpack = require('webpack')
-var nodeExternals = require('webpack-node-externals')
+var nodeExternals = require('webpack-node-externals');
+
+const optimization = {
+  splitChunks: {
+    cacheGroups: {
+      commons: {
+        test: /[\\/]node_modules[\\/]/,
+        name: "vendor",
+        chunks: "initial",
+      }
+    }
+  }
+}
 
 var browserConfig = {
   entry: './src/client/index.js',
@@ -9,6 +21,7 @@ var browserConfig = {
     filename: 'bundle.js',
     publicPath: '/'
   },
+  optimization,
   watch: true,
   module: {
     rules: [
