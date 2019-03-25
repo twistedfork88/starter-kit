@@ -13,6 +13,11 @@ import handleNonce from './middleware/nonce';
 import cspRules from './middleware/csp';
 import helmetCsp from 'helmet-csp';
 import cookies from 'cookie-parser';
+import fs from 'fs';
+
+// The webpack asset manifest file which we will
+// be using to render the scripts and other assets.
+let WebpackManifest = {};
 
 const app = express();
 
@@ -30,12 +35,17 @@ app.use(cors());
 // We're going to serve up the public
 // folder since that's where our
 // client bundle.js file will end up.
-app.use(express.static("webpack/public"));
+app.use(express.static("webpack/build/client"));
 
 app.use(handleNonce);
 app.use(helmetCsp(cspRules));
 
 app.get("*", (req, res, next) => {
+
+  // if the WebpackManifest object is empty, read from the manifest file
+  if(!Object.keys(WebpackManifest).length) {
+    WebpackManifest = JSON.parse(fs.readFileSync('./webpack/build/client/manifest.json', { encoding: 'utf-8' }));
+  }
 
   const sheet = new ServerStyleSheet();
 
@@ -52,7 +62,17 @@ app.get("*", (req, res, next) => {
   // testing sample data
   const data = JSON.stringify({ a: 1 });
 
-  res.render('index', { data, styles, markup });
+  res.render(
+    'index',
+    {
+      data,
+      styles,
+      markup,
+      manifest: WebpackManifest,
+      manifestStr: JSON.stringify(WebpackManifest),
+      nonce: req.nonce
+    }
+  );
 });
 
 app.listen(3000, () => {
