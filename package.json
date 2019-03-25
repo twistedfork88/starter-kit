@@ -5,7 +5,7 @@
   "scripts": {
     "client": "webpack --mode=development --config ./webpack/client.config.js",
     "server": "webpack --mode=development -w --config ./webpack/server.config.js",
-    "start": "nodemon ./webpack/server.js"
+    "start": "nodemon ./webpack/build/server/server.js"
   },
   "repository": {
     "type": "git",
@@ -41,6 +41,7 @@
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.12.0",
+    "webpack-assets-manifest": "^3.1.1",
     "webpack-cli": "^3.3.0",
     "webpack-node-externals": "^1.6.0",
     "webpack-shell-plugin": "^0.5.0"

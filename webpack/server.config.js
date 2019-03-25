@@ -20,7 +20,7 @@ var serverConfig = {
     target: 'node',
     externals: [nodeExternals()],
     output: {
-      path: __dirname,
+      path: __dirname + '/build/server',
       filename: 'server.js',
       publicPath: '/'
     },

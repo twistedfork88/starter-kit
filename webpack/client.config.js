@@ -1,6 +1,7 @@
-var path = require('path')
-var webpack = require('webpack')
-var nodeExternals = require('webpack-node-externals');
+const path = require('path')
+const webpack = require('webpack')
+const nodeExternals = require('webpack-node-externals');
+const WebpackAssetsManifest = require('webpack-assets-manifest');
 
 const optimization = {
   splitChunks: {
@@ -17,7 +18,7 @@ const optimization = {
 var browserConfig = {
   entry: './src/client/index.js',
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, 'build', 'client'),
     filename: 'bundle.js',
     publicPath: '/'
   },
@@ -47,7 +48,8 @@ var browserConfig = {
   plugins: [
     new webpack.DefinePlugin({
       __isBrowser__: "true"
-    })
+    }),
+    new WebpackAssetsManifest({})
   ]
 }
 

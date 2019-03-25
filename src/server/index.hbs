@@ -3,9 +3,11 @@
     <head>
         <title>Boilerplate HBS</title>
         {{{styles}}}
-        <script>window.INITIAL_STATE = {{{data}}};</script>
-        <script src="/vendor.bundle.js" defer></script>
-        <script src="/bundle.js" defer></script>
+        <script nonce={{{nonce}}} src={{lookup manifest 'vendor.js'}} defer></script>
+        <script nonce={{{nonce}}} src={{lookup manifest 'main.js'}} defer></script>
+
+        <script nonce={{{nonce}}}>window.manifest = {{{manifestStr}}}</script>
+        <script nonce={{{nonce}}}>window.INITIAL_STATE = {{{data}}};</script>
     </head>
 
     <body>
